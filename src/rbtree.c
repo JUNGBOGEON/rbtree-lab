@@ -1,5 +1,4 @@
 #include "rbtree.h"
-
 #include <stdlib.h>
 
 rbtree *new_rbtree(void) {
@@ -11,13 +10,12 @@ rbtree *new_rbtree(void) {
   return p;
 }
 
-void postOrderDelete(rbtree *t, node_t *cur) {
+void nodeTreeDelete(rbtree *t, node_t *cur) {
   if (cur == t->nil) {
     return;
   }
-
-  postOrderDelete(t, cur->left);
-  postOrderDelete(t, cur->right);
+  nodeTreeDelete(t, cur->left);
+  nodeTreeDelete(t, cur->right);
 
   free(cur);
   cur = NULL;
@@ -26,7 +24,7 @@ void postOrderDelete(rbtree *t, node_t *cur) {
 void delete_rbtree(rbtree *t) {
   node_t *cur = t->root;
 
-  postOrderDelete(t, cur);
+  nodeTreeDelete(t, cur);
   free(t->nil);
   t->nil = NULL;
 
@@ -35,7 +33,7 @@ void delete_rbtree(rbtree *t) {
 }
 
 node_t *rbtree_insert(rbtree *t, const key_t key) {
-  // TODO: implement insert
+
   return t->root;
 }
 
