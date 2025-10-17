@@ -4,13 +4,34 @@
 
 rbtree *new_rbtree(void) {
   rbtree *p = (rbtree *)calloc(1, sizeof(rbtree));
-  // TODO: initialize struct if needed
+  node_t *nil = (node_t *)calloc(1, sizeof(node_t));
+  nil->color = RBTREE_BLACK;
+  p->nil = nil;
+  p->root = nil;
   return p;
 }
 
+void postOrderDelete(rbtree *t, node_t *cur) {
+  if (cur == t->nil) {
+    return;
+  }
+
+  postOrderDelete(t, cur->left);
+  postOrderDelete(t, cur->right);
+
+  free(cur);
+  cur = NULL;
+}
+
 void delete_rbtree(rbtree *t) {
-  // TODO: reclaim the tree nodes's memory
+  node_t *cur = t->root;
+
+  postOrderDelete(t, cur);
+  free(t->nil);
+  t->nil = NULL;
+
   free(t);
+  t = NULL;
 }
 
 node_t *rbtree_insert(rbtree *t, const key_t key) {
